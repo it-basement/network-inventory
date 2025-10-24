@@ -298,6 +298,16 @@ const NetworkScanner = () => {
           onClose={handleCloseDetail}
           onDetailedScan={handleDetailedScan}
           onDelete={handleDeleteDevice}
+          onRefresh={fetchDevices}
+        />
+      )}
+
+      {/* Bulk Credentials Modal */}
+      {showBulkCredentials && (
+        <BulkCredentials
+          devices={devices}
+          onClose={() => setShowBulkCredentials(false)}
+          onApply={handleBulkCredentials}
         />
       )}
     </div>
