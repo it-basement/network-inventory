@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { X, Lock, Trash2, Info, HardDrive, Cpu, Activity } from 'lucide-react';
 
-const DeviceDetail = ({ device, onClose, onDetailedScan, onDelete }) => {
+const DeviceDetail = ({ device, onClose, onDetailedScan, onDelete, onRefresh }) => {
   const [showAuthForm, setShowAuthForm] = useState(false);
   const [credentials, setCredentials] = useState({
     username: '',
@@ -16,9 +16,14 @@ const DeviceDetail = ({ device, onClose, onDetailedScan, onDelete }) => {
     
     try {
       await onDetailedScan(device.id, credentials);
-      alert('Detailed scan started. Please wait a few moments and refresh to see updated information.');
+      alert('Detailed scan started. Refreshing in 5 seconds to see results...');
       setShowAuthForm(false);
       setCredentials({ username: '', password: '', auth_type: 'ssh' });
+      
+      // Auto-refresh after scan
+      setTimeout(() => {
+        onRefresh();
+      }, 5000);
     } catch (error) {
       alert('Error starting detailed scan: ' + (error.response?.data?.detail || error.message));
     } finally {
