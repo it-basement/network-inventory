@@ -219,9 +219,15 @@ const DeviceDetail = ({ device, onClose, onDetailedScan, onDelete, onRefresh }) 
                       className="w-full px-3 py-2 bg-slate-800 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
                       <option value="ssh">SSH (Linux/Unix)</option>
+                      <option value="ad">Active Directory (Windows Domain)</option>
+                      <option value="wmi">WMI (Windows Local)</option>
                       <option value="snmp">SNMP (Network Devices)</option>
-                      <option value="wmi">WMI (Windows)</option>
                     </select>
+                    {credentials.auth_type === 'ad' && (
+                      <p className="mt-2 text-xs text-slate-400">
+                        Use domain credentials: domain\username or username@domain.com
+                      </p>
+                    )}
                   </div>
                   
                   <div>
