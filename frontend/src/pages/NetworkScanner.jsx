@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Network, RefreshCw, Search, Server, Lock, AlertCircle, CheckCircle } from 'lucide-react';
+import { Network, RefreshCw, Search, Server, Lock, AlertCircle, CheckCircle, Key } from 'lucide-react';
 import ScanForm from '../components/ScanForm';
 import DeviceList from '../components/DeviceList';
 import DeviceDetail from '../components/DeviceDetail';
 import ScanProgress from '../components/ScanProgress';
+import BulkCredentials from '../components/BulkCredentials';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
