@@ -233,12 +233,19 @@ const DeviceDetail = ({ device, onClose, onDetailedScan, onDelete, onRefresh }) 
                   <div>
                     <label className="block text-sm font-medium text-slate-300 mb-2">
                       Username {credentials.auth_type === 'snmp' && '(Community String)'}
+                      {credentials.auth_type === 'ad' && '(Domain Account)'}
                     </label>
                     <input
                       type="text"
                       value={credentials.username}
                       onChange={(e) => setCredentials({ ...credentials, username: e.target.value })}
-                      placeholder={credentials.auth_type === 'snmp' ? 'public' : 'username'}
+                      placeholder={
+                        credentials.auth_type === 'snmp' 
+                          ? 'public' 
+                          : credentials.auth_type === 'ad'
+                          ? 'domain\\administrator'
+                          : 'username'
+                      }
                       className="w-full px-3 py-2 bg-slate-800 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                       required
                     />
