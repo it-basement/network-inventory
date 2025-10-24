@@ -263,8 +263,10 @@ class NetworkScanner:
             if auth_type == 'ssh':
                 return await self._ssh_scan(ip_address, username, password)
             elif auth_type == 'snmp':
-                return await self._snmp_scan(ip_address, credentials.get('community', 'public'))
-            # WMI/SMB scanning can be added here
+                return await self._snmp_scan(ip_address, credentials.get('community', username))
+            elif auth_type in ['wmi', 'ad']:
+                # WMI and AD use similar authentication
+                return await self._wmi_scan(ip_address, username, password)
         except Exception as e:
             logger.error(f"Authenticated scan failed for {ip_address}: {str(e)}")
         
