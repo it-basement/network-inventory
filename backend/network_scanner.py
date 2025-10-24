@@ -352,6 +352,29 @@ class NetworkScanner:
         except Exception as e:
             logger.error(f"SNMP scan failed for {ip_address}: {str(e)}")
             return None
+    
+    async def _wmi_scan(self, ip_address: str, username: str, password: str) -> Optional[Dict]:
+        """Get Windows device info via WMI or Active Directory"""
+        # Note: This is a placeholder for WMI/AD authentication
+        # Full implementation would require pypsrp or pywinrm libraries
+        try:
+            # For now, return a message that WMI/AD scanning is in progress
+            logger.info(f"WMI/AD scan attempted for {ip_address} with user {username}")
+            
+            # Placeholder: In production, implement actual WMI queries here
+            # Example libraries: pypsrp, pywinrm
+            # This would query Windows systems for hardware info, installed software, etc.
+            
+            return {
+                'hardware_specs': {
+                    'scan_type': 'WMI/Active Directory',
+                    'note': 'WMI/AD authentication attempted - full implementation requires pywinrm/pypsrp'
+                }
+            }
+            
+        except Exception as e:
+            logger.error(f"WMI/AD scan failed for {ip_address}: {str(e)}")
+            return None
 
 
 # Utility function to validate network range
