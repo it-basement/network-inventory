@@ -206,6 +206,13 @@ const NetworkScanner = () => {
               <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
               <span>Refresh</span>
             </button>
+            <button
+              onClick={() => setShowBulkCredentials(true)}
+              className="flex items-center space-x-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+            >
+              <Key className="w-4 h-4" />
+              <span>Bulk Credentials</span>
+            </button>
           </div>
         </div>
       </header>
