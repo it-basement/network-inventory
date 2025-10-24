@@ -127,6 +127,59 @@ const NetworkScanner = () => {
     }
   };
 
+  const handleBulkCredentials = async (credentials, deviceFilter) => {
+    try {
+      // Filter devices based on selection
+      let targetDevices = devices;
+      
+      if (deviceFilter === 'windows') {
+        targetDevices = devices.filter(d => 
+          d.os_info?.os_family?.toLowerCase().includes('windows') ||
+          d.os_info?.name?.toLowerCase().includes('windows') ||
+          d.device_type?.toLowerCase().includes('windows')
+        );
+      } else if (deviceFilter === 'linux') {
+        targetDevices = devices.filter(d => 
+          d.os_info?.os_family?.toLowerCase().includes('linux') ||
+          d.os_info?.name?.toLowerCase().includes('linux') ||
+          d.device_type?.toLowerCase().includes('linux')
+        );
+      } else if (deviceFilter === 'network') {
+        targetDevices = devices.filter(d => 
+          d.device_type?.toLowerCase().includes('router') ||
+          d.device_type?.toLowerCase().includes('switch') ||
+          d.device_type?.toLowerCase().includes('firewall')
+        );
+      } else if (deviceFilter === 'unauthenticated') {
+        targetDevices = devices.filter(d => !d.authenticated);
+      }
+      
+      // Start detailed scan for all target devices
+      const scanPromises = targetDevices.map(device => 
+        axios.post(`${API}/scan/detailed`, {
+          device_id: device.id,
+          credentials
+        }).catch(err => {
+          console.error(`Failed to scan ${device.ip_address}:`, err);
+          return null;
+        })
+      );
+      
+      await Promise.all(scanPromises);
+      
+      alert(`Detailed scan started for ${targetDevices.length} device(s). Please wait a few moments and refresh to see results.`);
+      
+      // Refresh devices after a delay
+      setTimeout(() => {
+        fetchDevices();
+      }, 5000);
+      
+    } catch (error) {
+      console.error('Error starting bulk scans:', error);
+      alert('Error starting bulk scans');
+    }
+  };
+
   const filteredDevices = devices.filter(device => {
     if (filter === 'all') return true;
     if (filter === 'authenticated') return device.authenticated;
