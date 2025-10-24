@@ -87,8 +87,27 @@ const DeviceDetail = ({ device, onClose, onDetailedScan, onDelete, onRefresh }) 
                   </span>
                 } 
               />
+              {device.last_scanned && (
+                <InfoRow label="Last Scanned" value={new Date(device.last_scanned).toLocaleString()} />
+              )}
             </div>
           </div>
+
+          {/* Scan Error Message */}
+          {device.scan_error && (
+            <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-4">
+              <h3 className="text-lg font-semibold text-red-400 mb-2 flex items-center space-x-2">
+                <Info className="w-5 h-5" />
+                <span>Authentication Failed</span>
+              </h3>
+              <p className="text-red-300 text-sm">
+                {device.scan_error}
+              </p>
+              <p className="text-red-400 text-xs mt-2">
+                This usually means the credentials were incorrect or the service is not available.
+              </p>
+            </div>
+          )}
 
           {/* OS Information */}
           {device.os_info && (
