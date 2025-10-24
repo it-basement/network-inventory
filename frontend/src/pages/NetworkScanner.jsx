@@ -19,6 +19,7 @@ const NetworkScanner = () => {
   const [loading, setLoading] = useState(false);
   const [stats, setStats] = useState({ total: 0, authenticated: 0, online: 0 });
   const [filter, setFilter] = useState('all');
+  const [showBulkCredentials, setShowBulkCredentials] = useState(false);
 
   // Fetch devices on component mount
   useEffect(() => {
