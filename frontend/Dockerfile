@@ -1,18 +1,12 @@
-# Frontend Dockerfile
 FROM node:20-alpine as build
 
-# Set working directory
 WORKDIR /app
 
-# Copy package files
-COPY package.json ./
-COPY yarn.lock* ./
+# Copy all files
+COPY . .
 
 # Install dependencies
-RUN yarn install --frozen-lockfile || yarn install
-
-# Copy application code
-COPY . .
+RUN yarn install
 
 # Build the application
 RUN yarn build
@@ -26,7 +20,7 @@ COPY --from=build /app/build /usr/share/nginx/html
 # Copy nginx configuration
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Expose port 3000 (Emergent standard)
+# Expose port 3000
 EXPOSE 3000
 
 # Start nginx
