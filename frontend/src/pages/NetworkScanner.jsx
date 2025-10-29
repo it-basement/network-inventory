@@ -180,13 +180,13 @@ const NetworkScanner = () => {
     }
   };
 
-  const filteredDevices = devices.filter(device => {
+  const filteredDevices = Array.isArray(devices) ? devices.filter(device => {
     if (filter === 'all') return true;
     if (filter === 'authenticated') return device.authenticated;
     if (filter === 'unauthenticated') return !device.authenticated;
     if (filter === 'online') return device.status === 'up';
     return true;
-  });
+  }) : [];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
