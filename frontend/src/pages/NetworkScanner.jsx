@@ -132,28 +132,28 @@ const NetworkScanner = () => {
   const handleBulkCredentials = async (credentials, deviceFilter) => {
     try {
       // Filter devices based on selection
-      let targetDevices = devices;
+      let targetDevices = Array.isArray(devices) ? devices : [];
       
       if (deviceFilter === 'windows') {
-        targetDevices = devices.filter(d => 
+        targetDevices = targetDevices.filter(d => 
           d.os_info?.os_family?.toLowerCase().includes('windows') ||
           d.os_info?.name?.toLowerCase().includes('windows') ||
           d.device_type?.toLowerCase().includes('windows')
         );
       } else if (deviceFilter === 'linux') {
-        targetDevices = devices.filter(d => 
+        targetDevices = targetDevices.filter(d => 
           d.os_info?.os_family?.toLowerCase().includes('linux') ||
           d.os_info?.name?.toLowerCase().includes('linux') ||
           d.device_type?.toLowerCase().includes('linux')
         );
       } else if (deviceFilter === 'network') {
-        targetDevices = devices.filter(d => 
+        targetDevices = targetDevices.filter(d => 
           d.device_type?.toLowerCase().includes('router') ||
           d.device_type?.toLowerCase().includes('switch') ||
           d.device_type?.toLowerCase().includes('firewall')
         );
       } else if (deviceFilter === 'unauthenticated') {
-        targetDevices = devices.filter(d => !d.authenticated);
+        targetDevices = targetDevices.filter(d => !d.authenticated);
       }
       
       // Start detailed scan for all target devices
