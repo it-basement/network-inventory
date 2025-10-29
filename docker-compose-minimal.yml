@@ -1,0 +1,34 @@
+version: "3.8"
+
+services:
+  mongodb:
+    image: mongo:7.0
+    container_name: network-scanner-db
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+
+  backend:
+    build: ./backend
+    container_name: network-scanner-backend
+    ports:
+      - "8001:8001"
+    environment:
+      MONGO_URL: mongodb://mongodb:27017
+      DB_NAME: network_scanner
+      CORS_ORIGINS: http://localhost:3000
+    depends_on:
+      - mongodb
+    privileged: true
+
+  frontend:
+    build: ./frontend
+    container_name: network-scanner-frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+volumes:
+  mongodb_data:
