@@ -64,9 +64,11 @@ const NetworkScanner = () => {
     setLoading(true);
     try {
       const response = await axios.get(`${API}/devices`);
-      setDevices(response.data);
+      const devicesData = Array.isArray(response.data) ? response.data : [];
+      setDevices(devicesData);
     } catch (error) {
       console.error('Error fetching devices:', error);
+      setDevices([]);
     } finally {
       setLoading(false);
     }
